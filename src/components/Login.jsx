@@ -8,7 +8,10 @@ const Login = () => {
   };
   return (
     <div>
-      <button onClick={googleLogin}>
+      <button
+        className="flex justify-between items-center gap-1 bg-green-500 p-2 rounded-lg"
+        onClick={googleLogin}
+      >
         <i className="fa-brands fa-google"></i>Sign in with Google
       </button>
     </div>

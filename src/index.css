@@ -4,7 +4,7 @@
 
 .message {
     display: flex;
-    background: gray;
+    /* background: gray; */
     padding: 10px;
     margin: 1rem;
     border-radius: 1rem;
@@ -36,6 +36,27 @@
     padding: 10px;
     border-radius: 1rem;
     width: max-content;
-    /* background: purple; */
+    background: gray;
   }
 
+  .close {
+    display: none;
+  }
+
+  .open {
+    display: block;
+  }
+
+  .emoji-panel {
+    position: absolute;
+    top: 38%; /* Ajusta esta propiedad según sea necesario para que el panel de emoji se muestre hacia arriba */
+    left: 30%;
+    z-index: 999; /* Asegúrate de que el valor de z-index sea mayor que el del resto del formulario para que el panel de emoji se superponga */
+  }
+
+  .emoji-panel2 {
+    position: absolute;
+    top: 46%; /* Ajusta esta propiedad según sea necesario para que el panel de emoji se muestre hacia arriba */
+    left: 8%;
+    z-index: 999; /* Asegúrate de que el valor de z-index sea mayor que el del resto del formulario para que el panel de emoji se superponga */
+  }

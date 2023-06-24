@@ -1,19 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { auth, db } from "../firebase";
-import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
+import {
+  query,
+  collection,
+  orderBy,
+  onSnapshot,
+  limit,
+} from "firebase/firestore";
 import Message from "./Message";
-import SendMessage from "./SendMessage";
 
-const Chat = () => {
-  const [messages, setMessages] = useState([]);
-
+const Chat = ({ messages, setMessages }) => {
+  const chatRef = useRef(null);
   useEffect(() => {
-    const newQuery = query(collection(db, "messages"), orderBy("timestamp"));
+    const newQuery = query(
+      collection(db, "messages"),
+      orderBy("timestamp", "desc"),
+      limit(20)
+    );
 
     const unsubscribe = onSnapshot(newQuery, (querySnapshot) => {
       let currentMessages = [];
       querySnapshot.forEach((item) => {
-        currentMessages.push({ content: item.data(), id: item.id });
+        currentMessages.unshift({ content: item.data(), id: item.id });
+        chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        if (chatRef.current && chatRef.current.lastChild) {
+          chatRef.current.lastChild.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+          });
+        }
       });
       setMessages(currentMessages);
     });
@@ -21,12 +36,11 @@ const Chat = () => {
   }, []);
 
   return (
-    <div className="bg-red-400 m-5">
+    <div className="bg-gray-200 m-5 h-4/5 overflow-y-auto" ref={chatRef}>
       {messages &&
         messages.map((item) => (
           <Message key={item.id} message={item.content} />
         ))}
-      <SendMessage />
     </div>
   );
 };
